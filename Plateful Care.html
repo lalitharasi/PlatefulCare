@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plateful Care</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#150c13;--card:#21121e;--card2:#33192d;--line:#43283c;--edge:rgba(255,241,209,.45);--ink:#FFF1D1;--mut:#cdbfae;--leaf:#FFF1D1;--beet:#612D53;--sky:#00B7CD;--vio:#FF9100;--amb:#DF301C;--on:#2a1325;--t1:14px;--t2:16px;--t3:20px;--t4:28px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 var(--t2)/1.5 "Bricolage Grotesque",system-ui,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.wrap{max-width:960px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;gap:16px;justify-content:space-between;flex-wrap:wrap;margin-bottom:24px}
+.logo{font-weight:800;font-size:var(--t3)}.logo span{color:var(--vio)}.logo i{font-style:normal;background:var(--vio);color:#2a1500;border-radius:8px;padding:4px 8px;margin-right:8px}
+.seg{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+.seg button{border:0;background:none;min-height:44px;padding:0 16px;border-radius:999px;font-size:var(--t1);font-weight:600;color:var(--mut);white-space:nowrap}
+.seg button.on{background:var(--ink);color:var(--on)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+h2{font-size:var(--t4);line-height:1.2;margin:0 0 8px;font-weight:800}h3{font-size:var(--t3);margin:0 0 8px}.sec{margin:24px 0 16px}p{margin:0 0 16px}
+.mut{color:var(--mut)}small{font-size:var(--t1)}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:16px;margin-bottom:16px}
+.tile{--c:var(--line);display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;background:var(--card);border:1px solid var(--line);border-left:8px solid var(--c);border-radius:16px;padding:16px;min-height:72px;font-weight:600}
+.tile:hover{background:var(--card2)}.tile.on{outline:2px solid var(--ink);background:var(--card2)}
+.btn{border:0;border-radius:12px;min-height:44px;padding:0 24px;font-size:var(--t2);font-weight:700;background:var(--ink);color:var(--on)}
+.btn.org{background:var(--vio);color:#2a1500}.li .btn{white-space:nowrap}.btn.sup{background:var(--sky);color:#06262c}.btn.alt{background:transparent;border:2px solid var(--edge);color:var(--ink)}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.hero{background:linear-gradient(135deg,var(--beet),var(--card) 80%);border-color:var(--beet)}
+.li{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+.ban{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-left:8px solid var(--sky);border-radius:16px;padding:16px;margin-bottom:16px}.ban div{flex:1 1 240px}
+.dots{display:flex;gap:8px;margin-bottom:16px}.dots b{height:8px;flex:1;border-radius:8px;background:var(--line)}.dots b.on{background:var(--ink)}
+.sub{background:var(--card2);border:2px dashed var(--edge);border-radius:12px;padding:16px;font-weight:600;margin:16px 0}
+textarea,input[type=text]{width:100%;border:2px solid var(--edge);background:var(--bg);border-radius:12px;padding:12px 16px;min-height:44px}textarea{min-height:96px;margin-bottom:16px}
+.route{position:relative;margin:32px 16px 72px;height:72px}
+.rail{position:absolute;left:0;right:0;top:32px;height:8px;border-radius:8px;background:var(--line)}.done{position:absolute;left:0;top:32px;height:8px;border-radius:8px;background:var(--ink);transition:width 1s}
+.stop{position:absolute;top:20px;width:32px;height:32px;margin-left:-16px;border-radius:50%;background:var(--card);border:3px solid var(--line);display:grid;place-items:center;font-size:var(--t1);font-weight:700}
+.stop.on{border-color:var(--ink);background:var(--ink);color:var(--on)}.stop.now{animation:pulse 1.6s infinite}
+.stop span{position:absolute;top:40px;font-size:var(--t1);font-weight:600;text-align:center;width:96px;left:50%;margin-left:-48px;color:var(--mut)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,241,209,.4)}70%{box-shadow:0 0 0 14px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.chip{--c:var(--card2);--ct:var(--ink);display:inline-flex;align-items:center;border-radius:999px;padding:4px 12px;font-size:var(--t1);font-weight:700;white-space:nowrap;background:var(--c);color:var(--ct);border:1px solid var(--edge)}
+.m-angry,.m-bad{--c:var(--beet);--ct:var(--ink)}.m-curious,.m-wait{--c:var(--sky);--ct:#06262c}.m-calm,.m-done{--c:var(--leaf);--ct:var(--on)}.m-group{--c:var(--vio);--ct:#2a1500}.m-warn{--c:var(--amb);--ct:#fff}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px;margin-bottom:16px}
+.stat{--c:var(--line);background:var(--card);border:1px solid var(--line);border-top:6px solid var(--c);border-radius:16px;padding:16px;font-size:var(--t1);color:var(--mut)}.stat b{font-size:var(--t4);display:block;line-height:1.2;color:var(--ink)}
+.tk{--c:var(--line);position:relative;overflow:hidden;margin-bottom:16px;padding-left:24px}.tk::before{content:"";position:absolute;inset:0 auto 0 0;width:8px;background:var(--c)}
+.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:8px}.top b{flex:1;min-width:0}.top .tm{flex:none;min-width:160px;justify-content:center;font-variant-numeric:tabular-nums}details.card{margin-bottom:16px}summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}details dt{font-weight:700;margin-top:16px}details dd{margin:0;color:var(--mut)}.meta{display:flex;gap:8px;flex-wrap:wrap}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px}.acts .btn{padding:0 16px;font-size:var(--t1)}
+.grp{display:inline-flex;align-items:center;gap:8px;padding-left:8px;border-left:2px solid var(--line)}
+.drop{display:flex;gap:16px;align-items:center;flex-wrap:wrap;border:2px dashed var(--edge);border-radius:16px;padding:16px;margin-bottom:8px;transition:.15s}.drop.over{border-color:var(--sky);background:var(--card2)}
+.err{background:var(--beet);border-left:8px solid var(--amb);border-radius:12px;padding:8px 16px;font-weight:600;margin:0 0 16px}
+.thumbs{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}.th{width:128px}
+.im{position:relative;height:96px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}.im img{width:100%;height:100%;object-fit:cover;display:block}
+.im .chip{position:absolute;left:4px;bottom:4px}.bar{position:absolute;left:0;right:0;bottom:0;height:8px;background:rgba(0,0,0,.5)}.bar i{display:block;height:100%;background:var(--ink);transition:width .2s}
+.th .btn{width:100%;margin-top:8px;padding:0}.mini{width:64px;height:64px;border-radius:12px;object-fit:cover;margin-right:8px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:360px}.sc{min-height:48px;border:2px solid var(--edge);background:transparent;border-radius:12px;font-weight:700}.sc.on{background:var(--ink);color:var(--on);border-color:var(--ink)}
+.ends{display:flex;justify-content:space-between;max-width:360px;color:var(--mut);margin:4px 0 16px}
+#chat{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20}#chat[hidden]{display:none}
+.cp{width:360px;max-width:calc(100vw - 32px);height:460px;max-height:calc(100vh - 96px);display:flex;flex-direction:column;background:var(--card);border:1px solid var(--edge);border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6)}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--sky);color:#06262c;padding:16px}.ch .btn.alt{border-color:#06262c;color:#06262c}.ch .btn{padding:0 16px;font-size:var(--t1)}
+.cm{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+.b{max-width:80%;padding:8px 16px;border-radius:16px}.b.s{background:var(--card2);border-left:4px solid var(--sky);align-self:flex-start}.b.m{background:var(--ink);color:var(--on);align-self:flex-end}
+.cf{display:flex;gap:8px;padding:16px;border-top:1px solid var(--line)}.cf .btn{padding:0 16px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--on);padding:12px 24px;border-radius:12px;font-size:var(--t1);font-weight:600;opacity:0;transition:.25s;pointer-events:none;max-width:90vw}#toast.on{opacity:1}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body><div class="wrap">
+<header><div class="logo"><i>P</i>Plateful <span>Care</span></div>
+<div class="seg"><button data-a="view" data-v="c" id="vc">Customer</button><button data-a="view" data-v="a" id="va">Support agent</button></div></header>
+<main id="app"></main></div><div id="chat" hidden></div><div id="toast" role="status"></div>
+<script>
+const R={missing:['Missing item','d',1,'warn'],wrong:['Wrong item','d',1,'warn'],cold:['Cold or spilled','d',1,'warn'],quality:['Quality or hygiene','d',1,'warn'],charge:['Wrong charge','dt',0,'group',1],late:['Where is my order?','t',0,'wait'],rider:['Rider issue','t',0,'wait'],app:['App or payment bug','dt',0,'group',1],other:['Something else','dt',0,'']};
+const O=[{id:48213,r:'Saravana Bhavan',st:'d',it:['Paneer Butter Masala','Garlic Naan','Gulab Jamun']},{id:48240,r:'Biryani House',st:'t',eta:'12 min',it:['Chicken Biryani','Raita']}];
+const ST=['New','Triaged','Assigned','In progress','Resolved'],CS=['Received','Understood','With a specialist','Working on it','Resolved'];
+const NX=['We have your report and are reading it.','We know what went wrong and who should fix it.','A specialist has your case and will reply soon.','We are fixing this now.','All done. Tell us how we did.'];
+const now=Date.now(),m=x=>now+x*6e4,MAXP=3,MAXB=5*1048576,OK=['image/jpeg','image/png','image/webp'];let nid=100,pk=0;const STAGE=12e4;
+let T=[{id:1,s:'Cold or spilled — Veg Thali · Order #47990 · Spice Route',mood:'angry',intent:'c',st:2,due:m(4)},
+{id:2,s:'Wrong item — Veg Burger · Order #48001 · Burger Lab',mood:'calm',intent:'c',st:1,due:m(22)},
+{id:3,s:'How do I change my delivery address?',mood:'curious',intent:'q',st:0,due:m(95)},
+{id:5,s:'Wrong charge · Order #47811 · Saravana Bhavan',mood:'calm',intent:'c',st:4,due:0,mine:1},
+...[48110,48117,48122,48131].map((o,i)=>({id:10+i,s:'App or payment bug — UPI checkout fails · Order #'+o,mood:i==2?'angry':'calm',intent:'c',st:1,due:m(25),issue:1}))];
+let ISS={1:{t:'UPI checkout fails at payment',open:1}};
+const S={v:'c',page:'home',step:0,o:null,r:null,items:[],note:'',mine:null,lane:'rec',rate:0,ph:[],err:'',chat:0,msgs:[],typ:0};
+const $=s=>document.querySelector(s),esc=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),2800)}
+function triage(x){const t=x.toLowerCase();let a=0;if(/third|again|useless|worst|terrible|never again|disgust|fed up|unacceptable/.test(t))a+=2;if(/!{2,}/.test(x))a++;if(x.length>8&&x===x.toUpperCase())a++;return a>=2?'angry':(/\?|^(how|where|can|do|what)\b/.test(t)?'curious':'calm')}
+function subject(){const n=S.items.map(i=>S.o.it[i]);return R[S.r][0]+(n.length?' — '+n.slice(0,2).join(', ')+(n.length>2?' +'+(n.length-2)+' more':''):'')+' · Order #'+S.o.id+' · '+S.o.r}
+function fmt(ms){const s=Math.abs(ms)/1e3|0;return String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function tm(t){if(t.st==4)return '<span class="chip tm m-done">Met</span>';if(t.hold)return '<span class="chip tm m-wait">Paused</span>';return '<span class="chip tm" data-d="'+t.id+'"></span>'}
+function view(){$('#vc').classList.toggle('on',S.v=='c');$('#va').classList.toggle('on',S.v=='a');$('#chat').hidden=S.v!='c'||!S.chat;$('#app').innerHTML=S.v=='c'?cust():agent();tick()}
+function inc(){return ISS[1].open&&!S.dis&&(S.page=='home'||(S.page=='report'&&(S.step==0||S.r=='app')))?'<div class="ban" role="note"><div><b>Known issue: UPI payments</b><br>Some UPI payments are failing right now and our team is fixing it. If this is your problem, report it and we will group it with the others.</div><button class="btn alt" data-a="dis">Dismiss</button></div>':''}
+function home(){const mine=T.filter(t=>t.mine);return inc()+'<div class="card hero"><h2>Something went wrong with your order?</h2><p>Tell us in a few taps. We fill in the details for you, and you can follow progress right here.</p><div class="row"><button class="btn org" data-a="go">Report a problem</button><button class="btn sup" data-a="copen">Talk to your support</button></div></div><h3 class="sec">Recent orders</h3>'
++O.map((o,i)=>'<div class="card li"><div><div class="row"><b>'+o.r+'</b><span class="chip m-'+(o.st=='t'?'wait':'done')+'">'+(o.st=='t'?'Arriving in '+o.eta:'Delivered')+'</span></div><div class="mut">Order #'+o.id+', '+o.it.join(', ')+'</div></div><button class="btn org" data-a="rep" data-i="'+i+'">Report a problem</button></div>').join('')
++'<h3 class="sec">Your reports</h3>'+(mine.map(t=>'<div class="card li"><div><b>'+esc(t.s)+'</b><div class="mut">'+CS[t.st]+'</div></div><div class="row"><span class="chip m-'+(t.st==4?'done':'wait')+'">'+CS[t.st]+'</span><button class="btn alt" data-a="open" data-i="'+t.id+'">View</button></div></div>').join('')||'<div class="card mut">No reports yet.</div>')}
+function cust(){if(S.page=='home')return home();if(S.page=='track')return track(T.find(t=>t.id==S.mine));
+const busy=S.ph.some(p=>!p.ok),dots='<div class="dots">'+[0,1,2,3].map(i=>'<b class="'+(i<=S.step?'on':'')+'"></b>').join('')+'</div>';let h=inc()+'<div class="card">'+dots;
+if(S.step==0)h+='<h2>Something went wrong with your order</h2><p class="mut">Which order is this about?</p><div class="grid">'+O.map((o,i)=>'<button class="tile" data-a="ord" data-i="'+i+'" style="--c:var(--'+(o.st=='t'?'sky':'leaf')+')"><b>'+o.r+'</b><small class="mut">Order #'+o.id+'</small><span class="chip m-'+(o.st=='t'?'wait':'done')+'">'+(o.st=='t'?'Arriving in '+o.eta:'Delivered')+'</span></button>').join('')+'</div><button class="btn alt" data-a="back">Back to home</button>';
+if(S.step==1)h+='<h2>What went wrong?</h2><div class="grid">'+Object.entries(R).filter(([k,v])=>v[1].includes(S.o.st)).map(([k,v])=>'<button class="tile m-'+v[3]+' '+(S.r==k?'on':'')+'" data-a="rea" data-k="'+k+'">'+v[0]+'</button>').join('')+'</div><button class="btn alt" data-a="back">Back</button>';
+if(S.step==2){const need=R[S.r][2],rq=R[S.r][4],ok1=S.ph.some(p=>p.ok);h+='<h2>'+(need?'Which items?':'Anything to add?')+'</h2>';
+if(need)h+='<div class="grid">'+S.o.it.map((x,i)=>'<button class="tile '+(S.items.includes(i)?'on':'')+'" data-a="itm" data-i="'+i+'" aria-pressed="'+S.items.includes(i)+'"><b>'+x+'</b><small class="mut">'+(S.items.includes(i)?'Selected':'Tap to select')+'</small></button>').join('')+'</div>';
+h+='<h3>Add a photo <small class="mut">'+(rq?'Required':'Optional')+', up to '+MAXP+'</small></h3>'+(rq?'<p class="mut">A screenshot or photo of the problem is how we find out what happened.</p>':'')+'<div class="drop" id="dz"><input type="file" id="pf" accept="image/jpeg,image/png,image/webp" multiple hidden><button class="btn alt" data-a="photo">Add photos</button><span class="mut">Or drag and drop here. JPEG, PNG or WebP, up to 5 MB each.</span></div>'+(S.err?'<p class="err" role="alert">'+S.err+'</p>':'')
++'<div class="thumbs">'+S.ph.map(p=>'<div class="th"><div class="im"><img src="'+p.url+'" alt="Photo of the problem">'+(p.ok?'<span class="chip m-done">Saved</span>':'<div class="bar"><i data-p="'+p.k+'" style="width:'+p.p+'%"></i></div>')+'</div><button class="btn alt" data-a="rm" data-k="'+p.k+'">Remove</button></div>').join('')+'</div>'
++'<h3>Tell us more <small class="mut">Optional</small></h3><textarea id="note" placeholder="'+(S.r=='other'?'Describe what happened':'Add details if you like')+'">'+esc(S.note)+'</textarea>'+(rq&&!ok1?'<p class="mut">Add at least one photo to continue.</p>':'')+'<div class="row"><button class="btn alt" data-a="back">Back</button><button class="btn" data-a="next" '+((need&&!S.items.length)||busy||(rq&&!ok1)?'disabled':'')+'>'+(busy?'Uploading…':'Continue')+'</button></div>'}
+if(S.step==3)h+='<h2>Check and send</h2><p class="mut">We wrote the subject for you:</p><div class="sub">'+esc(subject())+'</div>'+(S.note?'<p>“'+esc(S.note)+'”</p>':'')+'<div>'+S.ph.filter(p=>p.ok).map(p=>'<img class="mini" src="'+p.url+'" alt="Attached photo">').join('')+'</div><div class="row" style="margin-top:16px"><button class="btn alt" data-a="back">Back</button><button class="btn" data-a="send">Send report</button></div>';
+return h+'</div>'}
+function track(t){const p=t.st/4*100,pts=[0,1,2,3,4].map(i=>'<div class="stop '+(i<=t.st?'on':'')+(i==t.st?' now':'')+'" style="left:'+i*25+'%">'+(i+1)+'<span>'+CS[i]+'</span></div>').join('');
+let h='<div class="card"><h2>'+CS[t.st]+'</h2><p class="mut">'+esc(t.s)+'</p><div class="route"><div class="rail"></div><div class="done" style="width:'+p+'%"></div>'+pts+'</div>';
+h+='<div class="card" style="background:var(--card2);margin-bottom:16px"><h3>What happens next</h3><p style="margin:0">'+NX[t.st]+'</p>'+(t.issue?'<p class="mut" style="margin:8px 0 0">This is part of a known issue. One fix will update everyone affected.</p>':'')+(t.st<4?'<p class="mut" style="margin:8px 0 0">'+(t.hold?'Paused while we wait for you.':'Expected update: <b data-d="'+t.id+'"></b>')+'</p>':'')+'</div>';
+if(t.st==4)h+='<h3>How did we do?</h3><div class="scale" role="group" aria-label="Rating from 1 to 5">'+[1,2,3,4,5].map(n=>'<button class="sc'+(S.rate==n?' on':'')+'" data-a="rate" data-n="'+n+'" aria-pressed="'+(S.rate==n)+'">'+n+'</button>').join('')+'</div><div class="ends"><small>Poor</small><small>Excellent</small></div>'+(S.rate?'<p class="mut">Thank you. Your feedback was recorded.</p>':'');
+h+='<div class="row">'+(t.st==4?'<button class="btn" data-a="home">Back to home</button><button class="btn alt" data-a="reopen">Reopen</button>':'<button class="btn alt" data-a="home">Back to home</button>')+'<button class="btn sup" data-a="copen">Talk to your support</button>'+'</div></div>';return h}
+function mockUpload(f,on){return new Promise((ok,no)=>{let p=0;const h=setInterval(()=>{p+=8+Math.random()*14;if(p>=100){clearInterval(h);(/fail/i.test(f.name)||!navigator.onLine)?no(new Error('x')):ok({id:'img_'+Math.random().toString(36).slice(2,9)})}else on(p)},180)})}
+function up(p,f){mockUpload(f,v=>{p.p=v;const e=document.querySelector('[data-p="'+p.k+'"]');if(e)e.style.width=v+'%'}).then(r=>{if(!S.ph.includes(p))return;p.ok=1;p.id=r.id;view()}).catch(()=>{if(!S.ph.includes(p))return;S.ph=S.ph.filter(x=>x!==p);URL.revokeObjectURL(p.url);S.err='Upload failed, please try again';view()})}
+function addFiles(list){S.err='';for(const f of list){if(!OK.includes(f.type)){S.err='Invalid file type';break}if(f.size>MAXB){S.err='File too large';break}if(S.ph.length>=MAXP){S.err='Maximum photo limit reached';break}const p={k:++pk,url:URL.createObjectURL(f),p:0,ok:0};S.ph.push(p);up(p,f)}view()}
+['dragenter','dragover'].forEach(n=>document.addEventListener(n,e=>{e.preventDefault();const z=e.target.closest&&e.target.closest('#dz');if(z)z.classList.add('over')}));
+document.addEventListener('dragleave',e=>{const z=e.target.closest&&e.target.closest('#dz');if(z&&!z.contains(e.relatedTarget))z.classList.remove('over')});
+document.addEventListener('drop',e=>{e.preventDefault();const z=e.target.closest&&e.target.closest('#dz');if(z){z.classList.remove('over');addFiles(e.dataTransfer.files)}});
+document.addEventListener('change',e=>{if(e.target.id=='pf'){addFiles(e.target.files);e.target.value=''}});
+document.addEventListener('input',e=>{if(e.target.id=='note')S.note=e.target.value});
+document.addEventListener('keydown',e=>{if(e.target.id=='ci'&&e.key=='Enter')chatSend()});
+function chatRender(){const c=$('#chat');c.hidden=S.v!='c'||!S.chat;if(S.chat==2){c.innerHTML='<button class="btn sup" data-a="copen">Your support</button>';return}
+c.innerHTML='<section class="cp" aria-label="Chat with your support"><div class="ch"><div><b>Your support</b><div style="font-size:var(--t1)">We reply here, usually within a few minutes</div></div><button class="btn alt" data-a="cclose">Close</button></div><div class="cm" id="cm" aria-live="polite"></div><div class="cf"><input type="text" id="ci" placeholder="Write a message" aria-label="Message"><button class="btn sup" data-a="csend">Send</button></div></section>';chatMsgs()}
+function chatMsgs(){const x=$('#cm');if(!x)return;x.innerHTML=S.msgs.map(g=>'<div class="b '+g.w+'">'+esc(g.t)+'</div>').join('')+(S.typ?'<small class="mut">Your support is typing…</small>':'');x.scrollTop=x.scrollHeight}
+function chatOpen(){if(!S.msgs.length){const t=T.find(z=>z.id==S.mine);S.msgs.push({w:'s',t:'Hello, this is your support. '+(t&&S.page=='track'?'We can see your report: '+t.s+'. How can we help?':'How can we help you today?')});toast('Your support has been notified and will reply in the chat.')}S.chat=1;chatRender();const i=$('#ci');if(i)i.focus()}
+function chatSend(){const i=$('#ci'),v=i&&i.value.trim();if(!v)return;S.msgs.push({w:'m',t:v});i.value='';S.typ=1;chatMsgs();const x=v.toLowerCase();
+setTimeout(()=>{S.typ=0;S.msgs.push({w:'s',t:/refund|money|charge/.test(x)?'Understood. We are checking refund options for this order and will confirm here shortly.':/where|late|when/.test(x)?'Let us check the latest status for you. One moment.':/photo|picture/.test(x)?'Thanks. Photos you add to your report reach us straight away.':'Thanks. We have added that to your report, and an agent will reply here shortly.'});chatMsgs()},1100)}
+function tk(t){const m=t.mood,lb={angry:'Needs recovery',curious:'Question',calm:'Calm'}[m];
+return '<div class="card tk m-'+m+'"><div class="top"><b>'+esc(t.s)+'</b>'+tm(t)+'</div><div class="meta"><span class="chip m-'+m+'">'+lb+'</span><span class="chip'+(t.st==4?' m-done':'')+'">'+ST[t.st]+'</span>'+(t.issue?'<span class="chip m-group">Grouped issue</span>':'')+(t.photos?'<span class="chip">'+t.photos+' photo'+(t.photos>1?'s':'')+'</span>':'')+'</div><div class="acts"><button class="btn" data-a="adv" data-i="'+t.id+'">Advance</button><button class="btn alt" data-a="hold" data-i="'+t.id+'">'+(t.hold?'Resume timer':'Ask customer')+'</button><span class="grp"><small class="mut">Credit</small><button class="btn alt" data-a="cr" data-i="'+t.id+'" data-n="100">₹100</button><button class="btn alt" data-a="cr" data-i="'+t.id+'" data-n="500">₹500</button></span><button class="btn alt" data-a="mood" data-i="'+t.id+'">'+(t.mood=='angry'?'Not angry':'Mark angry')+'</button></div></div>'}
+function agent(){const act=T.filter(t=>t.st<4),L={rec:act.filter(t=>t.mood=='angry'),cmp:act.filter(t=>t.mood!='angry'&&t.intent=='c'&&!t.issue),q:act.filter(t=>t.intent=='q'&&t.mood!='angry')},g=act.filter(t=>t.issue);
+let h='<details class="card"><summary>What do these labels and buttons mean?</summary><dl><dt>Needs recovery</dt><dd>The AI judged the customer to be angry or likely to leave. These tickets get a 5 minute deadline and are handled first.</dd><dt>Triaged</dt><dd>A step in the ticket life: New, Triaged, Assigned, In progress, Resolved. Triaged means the system has read it and chosen the category and team, but no agent owns it yet.</dd><dt>Grouped issue</dt><dd>Several customers reported the same problem, so the tickets are linked. Fix it once and notify everyone.</dd><dt>Resolve all and notify</dt><dd>Closes every ticket in the group in one click and sends those customers the same update. In this demo the message is simulated.</dd><dt>Timer colours</dt><dd>Plain: on track. Red: under 3 minutes left. Plum with the word Overdue: the deadline has passed and nobody has acted. Blue Paused: waiting for the customer.</dd><dt>Advance</dt><dd>Moves the ticket to its next step. The customer sees the change on their tracker.</dd><dt>Ask customer / Resume timer</dt><dd>Pauses the deadline while we wait for the customer, such as for a photo. Resuming adds the paused time back.</dd><dt>Credit</dt><dd>Offers compensation. Amounts above ₹200 need manager approval.</dd><dt>Not angry / Mark angry</dt><dd>Corrects the AI if it misread the customer. The ticket moves to the matching lane.</dd></dl></details><div class="stats"><div class="stat">Active<b>'+act.length+'</b></div><div class="stat m-angry">Recovery<b>'+L.rec.length+'</b></div><div class="stat m-group">In groups<b>'+g.length+'</b></div><div class="stat m-done">Resolved<b>'+T.filter(t=>t.st==4).length+'</b></div></div><div class="seg" style="margin-bottom:16px;overflow:auto">'+[['rec','Recovery',L.rec.length],['cmp','Complaints',L.cmp.length],['q','Questions',L.q.length],['iss','Grouped issues',g.length]].map(([k,l,n])=>'<button data-a="lane" data-k="'+k+'" class="'+(S.lane==k?'on':'')+'">'+l+' '+n+'</button>').join('')+'</div>';
+if(S.lane=='iss')h+=g.length?'<div class="card tk m-group"><h3>'+ISS[1].t+'</h3><p class="mut">'+g.length+' customers affected. One fix will update all of them.</p><button class="btn" data-a="fixall">Resolve all and notify '+g.length+' customers</button></div>'+g.map(tk).join(''):'<div class="card">No open groups. New duplicates will collect here.</div>';
+else h+=(L[S.lane].map(tk).join('')||'<div class="card">Nothing here. New reports land in this lane automatically.</div>');return h}
+function tick(){document.querySelectorAll('[data-d]').forEach(e=>{const t=T.find(x=>x.id==e.dataset.d);if(!t)return;const r=t.due-Date.now(),c=e.classList.contains('chip');e.textContent=c?(r<0?'Overdue ':'Due in ')+fmt(r):(r<0?'any moment now':fmt(r));if(c){e.classList.toggle('m-bad',r<0);e.classList.toggle('m-warn',r>=0&&r<18e4)}})}
+function auto(){let ch=0;T.forEach(t=>{if(t.mine&&t.st<4&&!t.hold&&t.due<=Date.now()){t.st++;t.due=Date.now()+STAGE;ch=1;if(S.v=='c'&&S.mine==t.id)toast('Update: '+CS[t.st])}});if(ch&&(S.v=='a'||S.page=='track'||S.page=='home'))view()}
+setInterval(()=>{auto();tick()},1000);
+function reset(){S.r=null;S.items=[];S.ph=[];S.err='';S.note='';S.step=0}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,i=+b.dataset.i,t=T.find(x=>x.id==i);
+if(a=='photo'){$('#pf').click();return}
+if(a=='copen'){chatOpen();view();return}if(a=='cclose'){S.chat=2;chatRender();return}if(a=='csend'){chatSend();return}
+if(a=='view')S.v=b.dataset.v;
+else if(a=='go'){reset();S.page='report'}
+else if(a=='rep'){reset();S.o=O[i];S.step=1;S.page='report'}
+else if(a=='ord'){S.o=O[i];S.step=1;S.r=null;S.items=[];S.ph=[];S.err=''}
+else if(a=='rea'){S.r=b.dataset.k;S.step=2;S.items=[]}
+else if(a=='itm')S.items=S.items.includes(i)?S.items.filter(x=>x!=i):[...S.items,i];
+else if(a=='rm'){const p=S.ph.find(x=>x.k==b.dataset.k);if(p){URL.revokeObjectURL(p.url);S.ph=S.ph.filter(x=>x!==p)}}
+else if(a=='next'){if(!(R[S.r][4]&&!S.ph.some(p=>p.ok)))S.step=3}
+else if(a=='back'){if(S.step==0)S.page='home';else S.step--}
+else if(a=='send'){const mood=S.note?triage(S.note):'calm',q=mood=='curious',ok=S.ph.filter(p=>p.ok),tt={id:nid++,mine:1,photos:ok.length,photoIds:ok.map(p=>p.id),s:subject(),mood,intent:q?'q':'c',st:0,due:Date.now()+STAGE};T.unshift(tt);S.mine=tt.id;S.page='track';S.ph=[];toast(mood=='angry'?'Sent. Our recovery team will reply first.':'Sent. We will keep you updated.')}
+else if(a=='open'){S.mine=i;S.page='track'}
+else if(a=='home')S.page='home';
+else if(a=='dis')S.dis=1;
+else if(a=='adv'){if(t&&t.st<4){t.st++;t.hold=0;t.due=Date.now()+(t.mine?STAGE:20*6e4);toast('Status: '+ST[t.st]+(t.st==4?'. Resolved tickets leave the queue.':''))}}
+else if(a=='hold'){if(t.hold){t.due+=Date.now()-t.hold;t.hold=0;toast('Timer resumed. Paused time added back.')}else{t.hold=Date.now();toast('Timer paused while waiting for the customer.')}}
+else if(a=='cr'){const n=+b.dataset.n;toast(n>200?'₹'+n+' needs manager approval. Request sent.':'₹'+n+' credit approved.')}
+else if(a=='mood'){t.mood=t.mood=='angry'?'calm':'angry';S.lane=t.mood=='angry'?'rec':(t.intent=='q'?'q':(t.issue?'iss':'cmp'));toast('Moved to '+({rec:'Recovery',q:'Questions',iss:'Grouped issues',cmp:'Complaints'})[S.lane]+'. Correction saved to improve the AI.')}
+else if(a=='lane')S.lane=b.dataset.k;
+else if(a=='fixall'){T.filter(x=>x.issue).forEach(x=>x.st=4);ISS[1].open=0;toast('One fix sent to every affected customer.')}
+else if(a=='rate')S.rate=+b.dataset.n;
+else if(a=='reopen'){const x=T.find(z=>z.id==S.mine);x.st=2;x.due=Date.now()+STAGE;S.rate=0;toast('Reopened. Priority raised.')}
+view()});
+view();
+</script></body></html>
